@@ -1,1 +1,1 @@
-# learning-assistant-ds-club-2025
+# Philomath AI
