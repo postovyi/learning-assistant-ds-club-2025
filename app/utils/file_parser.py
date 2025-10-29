@@ -22,7 +22,7 @@ class PDFParser(Parser):
 
 class DocxParser(Parser):
     @staticmethod
-    def parse(self, file_path: str) -> str:
+    def parse(file_path: str) -> str:
         doc = Document(file_path)
         text = ""
         for paragraph in doc.paragraphs:
