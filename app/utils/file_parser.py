@@ -45,9 +45,9 @@ class TXTParser(Parser):
 
 def get_parser(file_extension: str) -> Parser:
     parsers = {
-        "pdf": PDFParser,
-        "docx": DocxParser,
-        "md": MDParser,
-        "txt": TXTParser
+        "pdf": PDFParser(),
+        "docx": DocxParser(),
+        "md": MDParser(),
+        "txt": TXTParser()
     }
-    return parsers.get(file_extension, Parser)()
+    return parsers.get(file_extension, Parser)
