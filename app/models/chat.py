@@ -24,7 +24,7 @@ class ChatMessage(BaseId):
     __tablename__ = "chat_messages"
 
     session_id: Mapped[UUID] = mapped_column(ForeignKey("sessions.id", ondelete="CASCADE"))
-    role: Mapped[MessageRole] = mapped_column(SAEnum(MessageRole))
+    role: Mapped[MessageRole] = mapped_column(SAEnum(MessageRole, values_callable=lambda obj: [e.value for e in obj]))
     content: Mapped[str]
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
 

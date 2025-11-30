@@ -14,7 +14,7 @@ class Material(BaseId):
     session_id: Mapped[UUID] = mapped_column(ForeignKey("sessions.id"))
     name: Mapped[str] = mapped_column(String(255))
     file_url: Mapped[str] = mapped_column(Text)
-    file_type: Mapped[FileType] = mapped_column(SAEnum(FileType))
+    file_type: Mapped[FileType] = mapped_column(SAEnum(FileType, values_callable=lambda obj: [e.value for e in obj]))
     size: Mapped[int] = mapped_column(Integer) # Size in bytes
     uploaded_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
 
@@ -37,7 +37,7 @@ class Homework(BaseId):
 
     session_id: Mapped[UUID] = mapped_column(ForeignKey("sessions.id"))
     title: Mapped[str] = mapped_column(String(255))
-    status: Mapped[HomeworkStatus] = mapped_column(SAEnum(HomeworkStatus), default=HomeworkStatus.PENDING)
+    status: Mapped[HomeworkStatus] = mapped_column(SAEnum(HomeworkStatus, values_callable=lambda obj: [e.value for e in obj]), default=HomeworkStatus.PENDING)
     generated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
     submitted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
@@ -60,7 +60,7 @@ class HomeworkReview(BaseId):
     __tablename__ = "homework_reviews"
 
     homework_id: Mapped[UUID] = mapped_column(ForeignKey("homework.id"))
-    grade: Mapped[Grade | None] = mapped_column(SAEnum(Grade), nullable=True)
+    grade: Mapped[Grade | None] = mapped_column(SAEnum(Grade, values_callable=lambda obj: [e.value for e in obj]), nullable=True)
     overall_feedback: Mapped[str | None] = mapped_column(Text, nullable=True)
     reviewed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
     reviewed_by: Mapped[str | None] = mapped_column(String(100), nullable=True) # Could be AI or User ID
@@ -84,7 +84,7 @@ class Lesson(BaseId):
     progress: Mapped[int] = mapped_column(Integer, default=0)
     current_step: Mapped[int] = mapped_column(Integer, default=0)
     total_steps: Mapped[int] = mapped_column(Integer)
-    status: Mapped[LessonStatus] = mapped_column(SAEnum(LessonStatus), default=LessonStatus.NOT_STARTED)
+    status: Mapped[LessonStatus] = mapped_column(SAEnum(LessonStatus, values_callable=lambda obj: [e.value for e in obj]), default=LessonStatus.NOT_STARTED)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
@@ -95,7 +95,7 @@ class LessonMessage(BaseId):
     __tablename__ = "lesson_messages"
 
     lesson_id: Mapped[UUID] = mapped_column(ForeignKey("lessons.id"))
-    type: Mapped[LessonMessageType] = mapped_column(SAEnum(LessonMessageType))
+    type: Mapped[LessonMessageType] = mapped_column(SAEnum(LessonMessageType, values_callable=lambda obj: [e.value for e in obj]))
     content: Mapped[str] = mapped_column(Text)
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow)
 

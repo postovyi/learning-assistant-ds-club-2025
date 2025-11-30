@@ -37,3 +37,9 @@ class BaseRepo(Generic[ModelType]):
         result = await self.session.execute(query)
         await self.session.commit()
         return result.rowcount > 0
+
+    async def get_by_ids(self, ids: list[UUID]) -> list[ModelType]:
+        if not ids:
+            return []
+        result = await self.session.execute(select(self.model).where(self.model.id.in_(ids)))
+        return result.scalars().all()

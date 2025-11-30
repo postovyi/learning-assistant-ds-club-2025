@@ -5,16 +5,20 @@ from app.models.chat import Session, ChatMessage
 from app.services.conversational_agent import ConversationalAgent
 from app.enums.db_enums import MessageRole
 
+from app.services.vector_store import VectorStoreService
+
 class ChatService:
     def __init__(
         self,
         session_repo: SessionRepo,
         message_repo: ChatMessageRepo,
-        agent_service: ConversationalAgent
+        agent_service: ConversationalAgent,
+        vector_store_service: VectorStoreService
     ):
         self.session_repo = session_repo
         self.message_repo = message_repo
         self.agent_service = agent_service
+        self.vector_store_service = vector_store_service
 
     async def create_session(self, user_id: UUID, title: str) -> Session:
         """Create a new learning session for a user."""
@@ -38,10 +42,15 @@ class ChatService:
             content=content
         )
 
+        # Get vector store ID
+        vector_store_name = f"session_{session_id}"
+        vector_store_id = await self.vector_store_service.get_or_create_vector_store(vector_store_name)
+
         # Get agent response
         response_text = await self.agent_service.send_message(
             session_id=str(session_id),
-            message=content
+            message=content,
+            vector_store_id=vector_store_id
         )
 
         # Save agent response

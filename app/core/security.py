@@ -4,7 +4,7 @@ from jose import jwt
 from passlib.context import CryptContext
 import os
 
-PWD_CONTEXT = CryptContext(schemes=["bcrypt"], deprecated="auto")
+PWD_CONTEXT = CryptContext(schemes=["argon2"], deprecated="auto")
 ALGORITHM = "HS256"
 SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey") # Change this in production
 ACCESS_TOKEN_EXPIRE_MINUTES = 30

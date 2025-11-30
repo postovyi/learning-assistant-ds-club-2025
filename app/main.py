@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import auth, chat, materials
+from app.api import auth, chat, materials, homework, mind_maps
 
 app = FastAPI(title="Learning Assistant API", version="1.0.0")
 
@@ -19,6 +19,8 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(chat.router, prefix="/api", tags=["chat"])
 app.include_router(materials.router, prefix="/api", tags=["materials"])
+app.include_router(homework.router, prefix="/api", tags=["homework"])
+app.include_router(mind_maps.router, prefix="/api", tags=["mind_maps"])
 
 @app.get("/")
 async def root():

@@ -1,4 +1,5 @@
 from agents import Agent
+from agents.tool import FileSearchTool
 
 def create_learning_assistant() -> Agent:
     """
@@ -10,6 +11,5 @@ def create_learning_assistant() -> Agent:
 You help students with their homework, lessons, and understanding course materials.
 You can search through uploaded materials to provide accurate answers.""",
         model="gpt-4o",
-        tools=[]  # Tools will be added as needed
-    )
+        tools=[FileSearchTool(vector_store_ids=["vs_692a1ddb1b5c8191b098e9c61d0c971d"])])
 

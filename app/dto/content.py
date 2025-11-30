@@ -45,9 +45,26 @@ class HomeworkTaskBase(BaseModel):
     description: str
     uploaded_file_url: Optional[str] = None
 
+class HomeworkReviewRead(BaseModel):
+    id: UUID
+    grade: Optional[Grade]
+    overall_feedback: Optional[str]
+    reviewed_at: datetime
+    reviewed_by: Optional[str]
+
+    model_config = ConfigDict(from_attributes=True)
+
+class HomeworkTaskReviewRead(BaseModel):
+    id: UUID
+    task_feedback: Optional[str]
+    score: Optional[Decimal]
+
+    model_config = ConfigDict(from_attributes=True)
+
 class HomeworkTaskRead(HomeworkTaskBase):
     id: UUID
     homework_id: UUID
+    reviews: list[HomeworkTaskReviewRead] = []
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -55,14 +72,22 @@ class HomeworkBase(BaseModel):
     title: str
     status: HomeworkStatus
 
+class HomeworkCreate(BaseModel):
+    prompt: str
+    material_ids: list[UUID]
+
 class HomeworkRead(HomeworkBase):
     id: UUID
     session_id: UUID
     generated_at: datetime
     submitted_at: Optional[datetime]
     tasks: list[HomeworkTaskRead] = []
+    reviews: list[HomeworkReviewRead] = []
 
     model_config = ConfigDict(from_attributes=True)
+
+class HomeworkTaskUpdate(BaseModel):
+    uploaded_file_url: str
 
 # Lesson
 class LessonMessageBase(BaseModel):

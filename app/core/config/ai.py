@@ -1,4 +1,4 @@
 from .base import BaseConfig
 
 class AIConfig(BaseConfig):
-    pass
+    vector_store_id: str | None = None
