@@ -11,5 +11,5 @@ def create_learning_assistant() -> Agent:
 You help students with their homework, lessons, and understanding course materials.
 You can search through uploaded materials to provide accurate answers.""",
         model="gpt-4o",
-        tools=[FileSearchTool(vector_store_ids=["vs_692a1ddb1b5c8191b098e9c61d0c971d"])])
+        tools=[FileSearchTool(vector_store_ids=["vs_692a19c6c540819188d01143f07e604e"])])
 
